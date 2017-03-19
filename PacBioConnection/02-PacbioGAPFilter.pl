@@ -1,6 +1,6 @@
 #!/usr/bin/env perl
 
-# ±È¶Ô½á¹û¹ıÂË£¬Ö»ÁôÏÂPacbioºÍContigÁ½¶Ë¶¼ÊÇÄ©¶ËµÄ±È¶Ô½á¹û
+# æ¯”å¯¹ç»“æœè¿‡æ»¤ï¼Œåªç•™ä¸‹Pacbioå’ŒContigä¸¤ç«¯éƒ½æ˜¯æœ«ç«¯çš„æ¯”å¯¹ç»“æœ
 use strict;
 use warnings;
 
@@ -37,7 +37,7 @@ while ( my $line = <IN> ) {
     my $qEnd      = $Columns[10];
     my $qLength   = $Columns[11];
     
-    # ±È¶Ô½á¹û1KÒÔÏÂµÄÖ®ºó´¦Àí
+    # æ¯”å¯¹ç»“æœ1Kä»¥ä¸‹çš„ä¹‹åå¤„ç†
     next if ( abs( $qEnd - $qStart ) < 500 );
     next if ( abs( $tEnd - $tStart ) < 500 );
     next if ( $percentSimilarity < $MinimumIdentity );
@@ -48,7 +48,7 @@ while ( my $line = <IN> ) {
     my $QryLeftOverhang  = 0 ;
     my $QryRightOverhang = 0 ;
     
-    # ¹ıÂË£¬Ö»ÁôÏÂ¿ç¹ıContigµÄ±È¶Ô½á¹û
+    # è¿‡æ»¤ï¼Œåªç•™ä¸‹è·¨è¿‡Contigçš„æ¯”å¯¹ç»“æœ
     
     if ( $qStrand == 0 && $tStrand == 0 ) {
 
@@ -57,7 +57,7 @@ while ( my $line = <IN> ) {
         $QryLeftOverhang  = $qStart;
         $QryRightOverhang = ( $qLength - $qEnd );
 
-        # ÏàÍ¬·½Ïò£¬include
+        # ç›¸åŒæ–¹å‘ï¼Œinclude
         #              ===============>
         #              |||||||||||||||
         #   -------------------------------------------->
@@ -68,7 +68,7 @@ while ( my $line = <IN> ) {
             
             print $line."\n";
             
-        # ÏàÍ¬·½Ïò£¬head
+        # ç›¸åŒæ–¹å‘ï¼Œhead
         #            ======================>
         #            |||||||||||||||
         #       ------------------->
@@ -79,7 +79,7 @@ while ( my $line = <IN> ) {
             
             print $line."\n";
             
-        # ÏàÍ¬·½Ïò£¬tail
+        # ç›¸åŒæ–¹å‘ï¼Œtail
         #         ==========================>
         #                     |||||||||||||||
         #                     --------------------->
@@ -101,7 +101,7 @@ while ( my $line = <IN> ) {
         $QryLeftOverhang  = $qStart;
         $QryRightOverhang = ( $qLength - $qEnd );
 
-        # ²»Í¬·½Ïò£¬include
+        # ä¸åŒæ–¹å‘ï¼Œinclude
         #              <==============
         #              |||||||||||||||
         #   -------------------------------------------->
@@ -112,21 +112,21 @@ while ( my $line = <IN> ) {
             
             print $line."\n";
             
-        # ²»Í¬·½Ïò£¬head
+        # ä¸åŒæ–¹å‘ï¼Œhead
         #          ======================>
         #          ||||||||||||
         #    <-----------------
         #    <======================
         #            |||||||||||||||          <-----
         #            -------------------->
-        #¡¡qName	            tName	            qStrand	tStrand	score	percentSimilarity	tStart	tEnd	tLength	qStart	qEnd	qLength	nCells
-        #¡¡m.../32347_45832	    contig11_size14782	0	    1	    -18870	100.00 	            11008	14782	14782	0	    3774	13374	79220
+        #ã€€qName	            tName	            qStrand	tStrand	score	percentSimilarity	tStart	tEnd	tLength	qStart	qEnd	qLength	nCells
+        #ã€€m.../32347_45832	    contig11_size14782	0	    1	    -18870	100.00 	            11008	14782	14782	0	    3774	13374	79220
         }elsif ( ( $RefLeftOverhang >= $MinOverhangLength ) && ( $RefRightOverhang <= $MinOverhangLength ) &&
                 ( $QryLeftOverhang <= $MinOverhangLength ) && ( $QryRightOverhang >= $MinOverhangLength ) ) {
             
             print $line."\n";
             
-        # ²»Í¬·½Ïò£¬tail
+        # ä¸åŒæ–¹å‘ï¼Œtail
         #          ======================>
         #                    ||||||||||||
         #                    <----------------------
