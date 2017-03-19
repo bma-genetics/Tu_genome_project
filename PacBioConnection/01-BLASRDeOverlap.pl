@@ -1,7 +1,7 @@
 #!/usr/bin/env perl
 
-# Ñ°ÕÒÁ½¶Ë100%±È¶ÔÉÏ1000bpµÄĞòÁĞºÍÍêÈ«°üº¬µÄĞòÁĞ£¬¼ò»¯½ÚµãÊı
-# ×öÁ¬½ÓºÍÉ¾³ıºóÖØĞÂ±È¶Ô
+# å¯»æ‰¾ä¸¤ç«¯100%æ¯”å¯¹ä¸Š1000bpçš„åºåˆ—å’Œå®Œå…¨åŒ…å«çš„åºåˆ—ï¼Œç®€åŒ–èŠ‚ç‚¹æ•°
+# åšè¿æ¥å’Œåˆ é™¤åé‡æ–°æ¯”å¯¹
 use strict;
 use warnings;
 use Bio::SeqIO;
@@ -45,7 +45,7 @@ while ( my $line = <IN> ) {
     my $qEnd      = $Columns[10];
     my $qLength   = $Columns[11];
     
-    # ±È¶Ô½á¹û1KÒÔÏÂµÄÖ®ºó´¦Àí
+    # æ¯”å¯¹ç»“æœ1Kä»¥ä¸‹çš„ä¹‹åå¤„ç†
     
     my $RefLeftOverhang  = 0;
     my $RefRightOverhang = 0;
@@ -58,31 +58,31 @@ while ( my $line = <IN> ) {
     $QryLeftOverhang  = $qStart;
     $QryRightOverhang = ( $qLength - $qEnd );
 
-    # °üº¬¹ØÏµ¼ì²â
+    # åŒ…å«å…³ç³»æ£€æµ‹
     if ( $RefLeftOverhang <=$MinOverhangLength && $RefRightOverhang <= $MinOverhangLength &&
          $QryLeftOverhang <=$MinOverhangLength && $QryRightOverhang <= $MinOverhangLength    ) {
-        # ÍêÈ«ÏàµÈ£¬ÈÓÒ»±ß
+        # å®Œå…¨ç›¸ç­‰ï¼Œæ‰”ä¸€è¾¹
         print $line."\n\n";
         $DisposeHash{$tName} = 0;
         next;
     }elsif ( $RefLeftOverhang <=$MinOverhangLength && $RefRightOverhang <=$MinOverhangLength ) {
-        # Ref°üº¬,ÉáÆúRef
+        # RefåŒ…å«,èˆå¼ƒRef
         print $line."\n";
         $DisposeHash{$tName} = 0;
         next;
     }elsif( $QryLeftOverhang <=$MinOverhangLength && $QryRightOverhang <=$MinOverhangLength ) {
-        # Qry°üº¬,ÉáÆúQry
+        # QryåŒ…å«,èˆå¼ƒQry
         print $line."\n";
         $DisposeHash{$qName} = 0;
         next;
     }
 
-    # ±È¶Ô¹ØÏµ¼ì²â£¬Ñ°ÕÒÁ½¶Ë100%±È¶ÔÉÏ1000bpµÄĞòÁĞ
+    # æ¯”å¯¹å…³ç³»æ£€æµ‹ï¼Œå¯»æ‰¾ä¸¤ç«¯100%æ¯”å¯¹ä¸Š1000bpçš„åºåˆ—
     if ( $percentSimilarity >=98 && abs( $qEnd - $qStart ) >= $MinOverlapLength ) {
     
         if ( $qStrand == 0 && $ tStrand == 0 ) {
 
-            # ÏàÍ¬·½Ïò£¬head
+            # ç›¸åŒæ–¹å‘ï¼Œhead
             #            ======================>
             #            |||||||||||||||
             #       ------------------->
@@ -93,7 +93,7 @@ while ( my $line = <IN> ) {
                 print $line."\n";
                 print "$qName\tf\t0\t$qEnd\t$tName\tf\t$tEnd\t$tLength\n";
                 $MergeHash{abs($score)} = "$qName\tf\t0\t$qEnd\t$tName\tf\t$tEnd\t$tLength";
-            # ÏàÍ¬·½Ïò£¬tail
+            # ç›¸åŒæ–¹å‘ï¼Œtail
             #         ==========================>
             #                     |||||||||||||||
             #                     --------------------->
@@ -113,19 +113,19 @@ while ( my $line = <IN> ) {
             $QryLeftOverhang  = $qStart;
             $QryRightOverhang = ( $qLength - $qEnd );
 
-            # ²»Í¬·½Ïò£¬head
+            # ä¸åŒæ–¹å‘ï¼Œhead
             #    <======================
             #            |||||||||||||||          <-----
             #            -------------------->
-            #¡¡qName	            tName	                qStrand	tStrand	score	percentSimilarity	tStart	tEnd	tLength	qStart	qEnd	qLength	nCells
-            #¡¡contig0006_size2382  contig0018_size2968      0       1       -6681  98.9759             1601    2968    2968    0       1367    2382    28711
+            #ã€€qName	            tName	                qStrand	tStrand	score	percentSimilarity	tStart	tEnd	tLength	qStart	qEnd	qLength	nCells
+            #ã€€contig0006_size2382  contig0018_size2968      0       1       -6681  98.9759             1601    2968    2968    0       1367    2382    28711
             if ( ( $qEnd   < $qLength ) && ( $qStart  == 0 ) &&
                  ( $tStart > 0 )        && ( $tEnd    == $tLength  ) ) {
                 print $line."\n";
                 print "$tName\tr\t0\t$tLength\t$qName\tf\t$qEnd\t$qLength\n";
                 $MergeHash{abs($score)} = "$tName\tr\t0\t$tLength\t$qName\tf\t$qEnd\t$qLength";
                 
-            # ²»Í¬·½Ïò£¬tail
+            # ä¸åŒæ–¹å‘ï¼Œtail
             #          <======================
             #          |||||||||||||||            <-----
             #    -------------------->
@@ -147,7 +147,7 @@ close IN;
 
 my %SeqHash = ();
 
-# ¶ÁÈëĞòÁĞ
+# è¯»å…¥åºåˆ—
 my $in  = Bio::SeqIO->new(-file => "<$ContigFile" , '-format' => 'Fasta');
             
     while ( my $seq = $in->next_seq() ) {
@@ -168,7 +168,7 @@ open(OUT, ">$MergedContigFile" ) or die("Cannot open $MergedContigFile\n");
 
 my %UsedHash = ();
 
-# ºÏ²¢ĞòÁĞ
+# åˆå¹¶åºåˆ—
 foreach my $Score ( sort { $b <=> $a } keys %MergeHash ) {
     
     my $MergeRecord = $MergeHash{$Score};
