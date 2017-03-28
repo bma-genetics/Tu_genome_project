@@ -15,3 +15,7 @@ Scripts for BAC connection using PacBio reads.
 
 Scripts for finding indels between Tu3 and Ta3B.
 
+
+Segmental_Trandem_duplicated_gene
+
+Scripts for finding segmental/tandem duplicated genes. 
